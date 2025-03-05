@@ -7,14 +7,7 @@ const connectDB = async () => {
   try {
     const dbURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/finance_tracker';
 
-    const options = {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      useCreateIndex: true,
-      useFindAndModify: false, 
-    };
-
-    await mongoose.connect(dbURI, options);
+    await mongoose.connect(dbURI);
 
     console.log('MongoDB connected successfully!');
   } catch (err) {
