@@ -6,7 +6,6 @@ const {
   loginValidator,
 } = require("../validators/authValidator");
 const { validate } = require("../utils/utils");
-const { authToken } = require("../middlewares/token");
 
 router.post("/signup", signupValidator, validate, signupUser);
 router.post("/login", loginValidator, validate, loginUser);

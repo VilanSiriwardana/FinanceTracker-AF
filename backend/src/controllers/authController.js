@@ -124,7 +124,7 @@ const loginUser = async (req, res, next) => {
   }
 };
 
-exports.createAdminUser = async (req, res, next) => {
+const createAdminUser = async () => {
   try {
     const adminExists = await User.findOne({ email: process.env.ADMIN_EMAIL });
 
@@ -134,20 +134,17 @@ exports.createAdminUser = async (req, res, next) => {
         email: process.env.ADMIN_EMAIL,
         password: process.env.ADMIN_PASSWORD,
         phone: process.env.ADMIN_PHONE,
-        role: "admin", 
+        role: "Admin",
       });
 
       await newAdmin.save();
       console.log("Admin user created successfully");
-      return res.status(201).json({ msg: "Admin user created successfully" });
     } else {
       console.log("Admin user already exists");
-      return res.status(400).json({ msg: "Admin user already exists" });
     }
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ msg: "Server error" });
+    console.error("Error creating admin user:", error.message);
   }
 };
 
-module.exports = { signupUser, loginUser };
+module.exports = { signupUser, loginUser, createAdminUser };
