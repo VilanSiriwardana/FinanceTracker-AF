@@ -7,6 +7,7 @@ const connectDB = require("./config/db");
 const auth = require("./routes/authRoutes");
 const transactions = require("./routes/transactionRoutes");
 const categories = require("./routes/categoryRoutes");
+const budgets = require("./routes/budgetRoutes");
 
 dotenv.config();
 
@@ -20,7 +21,7 @@ app.use(bodyParser.json());
 app.use("/api/auth", auth);
 app.use("/api/transactions", transactions);
 app.use("/api/categories", categories);
-// app.use("/api/budgets", require("./routes/budgetRoutes"));
+app.use("/api/budgets", require("./routes/budgetRoutes"));
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

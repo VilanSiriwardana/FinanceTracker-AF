@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const handleResponse = require("../utils/response");
 
 exports.createTransaction = async (req, res, next) => {
-  const { amount, type, category, description } = req.body;
+  const { amount, type, category, description, date } = req.body;
   const userId = req.user._id;
   console.log("User ID from token:", userId);
 
@@ -15,12 +15,15 @@ exports.createTransaction = async (req, res, next) => {
         .json({ msg: "Amount, type, and category are required" });
     }
 
+    const transactionDate = new Date(date);
+
     const transaction = new Transaction({
       userId,
       amount,
       type,
       category,
       description,
+      date: transactionDate,
     });
 
     await transaction.save();
@@ -67,8 +70,8 @@ exports.getTransactions = async (req, res, next) => {
 };
 
 exports.updateTransaction = async (req, res, next) => {
-  const { transactionId } = req.params; 
-  const { amount, type, category, description } = req.body; 
+  const { transactionId } = req.params;
+  const { amount, type, category, description } = req.body;
 
   try {
     const transaction = await Transaction.findById(transactionId);
@@ -83,7 +86,7 @@ exports.updateTransaction = async (req, res, next) => {
         .json({ msg: "You are not authorized to update this transaction" });
     }
 
-    transaction.amount = amount || transaction.amount; 
+    transaction.amount = amount || transaction.amount;
     transaction.type = type || transaction.type;
     transaction.category = category || transaction.category;
     transaction.description = description || transaction.description;
@@ -98,7 +101,7 @@ exports.updateTransaction = async (req, res, next) => {
     );
   } catch (error) {
     console.error(error);
-    return next(error); 
+    return next(error);
   }
 };
 
